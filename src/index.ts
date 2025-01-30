@@ -1,11 +1,9 @@
 import express, { Express, Request, Response } from 'express'
-import dotenv from 'dotenv'
 import rootRouter from './routers'
 import { PrismaClient } from '@prisma/client'
+import { PORT } from './secret'
 
 const app: Express = express()
-
-dotenv.config()
 
 app.use(express.json())
 app.get("/", (req: Request, res: Response) => {
@@ -15,6 +13,6 @@ app.use("/api", rootRouter)
 
 export const prismaClient = new PrismaClient()
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server running on ${process.env.PORT} 💫`)
+app.listen(PORT, () => {
+    console.log(`Server running on ${PORT} 💫`)
 })
