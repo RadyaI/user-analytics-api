@@ -44,7 +44,7 @@ function authenticateJWT(req, res, next) {
     }
     jwt.verify(token, secret_1.JWT_SECRET, (err, decode) => {
         if (err) {
-            res.status(403).json({ msg: "Invalid token" });
+            return res.status(403).json({ msg: "Invalid token" });
         }
         req.body.auth = decode;
         next();
