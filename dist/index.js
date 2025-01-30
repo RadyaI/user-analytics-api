@@ -13,7 +13,7 @@ app.use(express_1.default.json());
 app.get("/", (req, res) => {
     res.json({ status: true }).status(200);
 });
-app.use("/api", routers_1.default);
+app.use("/api/v1", routers_1.default);
 exports.prismaClient = new client_1.PrismaClient();
 app.listen(secret_1.PORT, () => {
     console.log(`Server running on ${secret_1.PORT} 💫`);

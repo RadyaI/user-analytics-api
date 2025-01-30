@@ -52,11 +52,11 @@ function signUp(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { email, password, name } = req.body;
         if (!email || !password || !name) {
-            res.status(400).json({ msg: "email/password/name is empty" });
+            return res.status(400).json({ msg: "email/password/name is empty" });
         }
         let user = yield __1.prismaClient.user.findFirst({ where: { email } });
         if (user) {
-            res.status(400).json({ msg: "User is already exist" });
+            return res.status(400).json({ msg: "User is already exist" });
         }
         user = yield __1.prismaClient.user.create({
             data: {
@@ -72,14 +72,14 @@ function signIn(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { email, password } = req.body;
         if (!email || !password) {
-            res.status(400).json({ msg: "email/password is empty" });
+            return res.status(400).json({ msg: "email/password is empty" });
         }
         let user = yield __1.prismaClient.user.findFirst({ where: { email } });
         if (!user) {
-            throw Error("User does not exist!");
+            return res.status(400).json({ msg: "User does not exist" });
         }
         if (!(0, bcrypt_1.compareSync)(password, user.password)) {
-            throw Error("Incorrect password!");
+            return res.status(400).json({ msg: "Incorrect passord" });
         }
         const token = jwt.sign({
             userId: user.id
