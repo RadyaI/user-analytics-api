@@ -9,7 +9,7 @@ app.use(express.json())
 app.get("/", (req: Request, res: Response) => {
     res.json({ status: true }).status(200)
 })
-app.use("/api", rootRouter)
+app.use("/api/v1", rootRouter)
 
 export const prismaClient = new PrismaClient()
 
