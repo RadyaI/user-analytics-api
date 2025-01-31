@@ -34,7 +34,7 @@ export async function signIn(req: Request, res: Response): Promise<any> {
 
     let user = await prismaClient.user.findFirst({ where: { email } })
     if (!user) {
-        return res.status(400).json({ msg: "User does not exist" })
+        return res.status(404).json({ msg: "User does not exist" })
     }
 
     if (!compareSync(password, user.password)) {
@@ -43,7 +43,7 @@ export async function signIn(req: Request, res: Response): Promise<any> {
 
     const token = jwt.sign({
         userId: user.id
-    }, JWT_SECRET)
+    }, JWT_SECRET, {expiresIn: "1h"})
 
 
     res.json({ user, token })

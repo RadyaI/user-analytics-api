@@ -76,14 +76,14 @@ function signIn(req, res) {
         }
         let user = yield __1.prismaClient.user.findFirst({ where: { email } });
         if (!user) {
-            return res.status(400).json({ msg: "User does not exist" });
+            return res.status(404).json({ msg: "User does not exist" });
         }
         if (!(0, bcrypt_1.compareSync)(password, user.password)) {
             return res.status(400).json({ msg: "Incorrect passord" });
         }
         const token = jwt.sign({
             userId: user.id
-        }, secret_1.JWT_SECRET);
+        }, secret_1.JWT_SECRET, { expiresIn: "1h" });
         res.json({ user, token });
     });
 }
