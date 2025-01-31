@@ -6,4 +6,6 @@ const user_1 = require("../controllers/user");
 const userRoute = (0, express_1.Router)();
 userRoute.get("/", authenticate_1.authenticateJWT, user_1.getAllUser);
 userRoute.get("/:id", authenticate_1.authenticateJWT, user_1.getUserById);
+userRoute.delete("/:id", authenticate_1.authenticateJWT, user_1.deleteUser);
+userRoute.put("/:id", user_1.updateUser);
 exports.default = userRoute;
