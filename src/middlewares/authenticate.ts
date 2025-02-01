@@ -11,7 +11,7 @@ export function authenticateJWT(req: Request, res: Response, next: NextFunction)
 
     jwt.verify(token, JWT_SECRET, (err, decode) => {
         if (err) {
-            return res.status(403).json({ msg: "Invalid token" })
+            return res.status(403).json({ msg: err.message })
         }
         req.body.auth = decode
         next()
