@@ -22,3 +22,20 @@ export async function getAllActivity(req: Request, res: Response): Promise<any> 
 
     res.status(200).json(resp(200, "Data fetch successfully", result))
 }
+
+export async function getActivityById(req: Request, res: Response): Promise<any> {
+    const id = req.params.id
+
+    const result = await prismaClient.activity.findFirst({
+        where: { id: Number(id) },
+        include: {
+            user: true
+        }
+    })
+
+    if (!result) {
+        return res.status(404).json(resp(404, "Data not found", {}))
+    }
+    res.status(200).json(resp(200, "Data fetch successfully", result))
+
+}

@@ -1,8 +1,10 @@
 import { Router } from 'express'
-import { getAllActivity } from '../controllers/activity'
+import { getActivityById, getAllActivity } from '../controllers/activity'
+import { authenticateJWT } from '../middlewares/authenticate'
 
 const activityRouter: Router = Router()
 
-activityRouter.get("/", getAllActivity)
+activityRouter.get("/", authenticateJWT, getAllActivity)
+activityRouter.get("/:id", authenticateJWT, getActivityById)
 
 export default activityRouter

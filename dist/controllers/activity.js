@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createActivity = createActivity;
 exports.getAllActivity = getAllActivity;
+exports.getActivityById = getActivityById;
 const __1 = require("..");
 const responses_1 = __importDefault(require("../middlewares/responses"));
 function createActivity(userId, token) {
@@ -31,6 +32,21 @@ function getAllActivity(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const result = yield __1.prismaClient.activity.findMany();
         if (result.length === 0) {
+            return res.status(404).json((0, responses_1.default)(404, "Data not found", {}));
+        }
+        res.status(200).json((0, responses_1.default)(200, "Data fetch successfully", result));
+    });
+}
+function getActivityById(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const id = req.params.id;
+        const result = yield __1.prismaClient.activity.findFirst({
+            where: { id: Number(id) },
+            include: {
+                user: true
+            }
+        });
+        if (!result) {
             return res.status(404).json((0, responses_1.default)(404, "Data not found", {}));
         }
         res.status(200).json((0, responses_1.default)(200, "Data fetch successfully", result));
