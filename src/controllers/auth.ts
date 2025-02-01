@@ -3,6 +3,8 @@ import { prismaClient } from ".."
 import { hashSync, compareSync } from 'bcrypt'
 import * as jwt from 'jsonwebtoken'
 import { JWT_SECRET } from "../secret"
+import { createActivity } from "./activity"
+import resp from "../middlewares/responses"
 
 export async function signUp(req: Request, res: Response): Promise<any> {
     const { email, password, name } = req.body
@@ -43,8 +45,8 @@ export async function signIn(req: Request, res: Response): Promise<any> {
 
     const token = jwt.sign({
         userId: user.id
-    }, JWT_SECRET, {expiresIn: "1h"})
+    }, JWT_SECRET, { expiresIn: "1h" })
 
-
-    res.json({ user, token })
+    const activity = await createActivity(user.id, token)
+    res.status(200).json(resp(200, "Login success", user, activity))
 }

@@ -41,6 +41,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signUp = signUp;
 exports.signIn = signIn;
@@ -48,6 +51,8 @@ const __1 = require("..");
 const bcrypt_1 = require("bcrypt");
 const jwt = __importStar(require("jsonwebtoken"));
 const secret_1 = require("../secret");
+const activity_1 = require("./activity");
+const responses_1 = __importDefault(require("../middlewares/responses"));
 function signUp(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const { email, password, name } = req.body;
@@ -84,6 +89,7 @@ function signIn(req, res) {
         const token = jwt.sign({
             userId: user.id
         }, secret_1.JWT_SECRET, { expiresIn: "1h" });
-        res.json({ user, token });
+        const activity = yield (0, activity_1.createActivity)(user.id, token);
+        res.status(200).json((0, responses_1.default)(200, "Login success", user, activity));
     });
 }
