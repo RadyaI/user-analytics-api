@@ -13,7 +13,8 @@ export function authenticateJWT(req: Request, res: Response, next: NextFunction)
         if (err) {
             return res.status(403).json({ msg: err.message })
         }
-        req.body.auth = decode
+        // req.body.auth = decode
+        (req as any).user = decode
         next()
     })
 

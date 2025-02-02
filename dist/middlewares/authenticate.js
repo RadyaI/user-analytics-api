@@ -46,7 +46,8 @@ function authenticateJWT(req, res, next) {
         if (err) {
             return res.status(403).json({ msg: err.message });
         }
-        req.body.auth = decode;
+        // req.body.auth = decode
+        req.user = decode;
         next();
     });
 }
