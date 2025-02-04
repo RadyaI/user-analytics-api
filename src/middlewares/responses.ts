@@ -1,7 +1,7 @@
 
-export default function resp(errorCode: number, msg: string, data: any, activity?: any): any {
+export default function resp(statusCode: number, msg: string, data: any, activity?: any): any {
     return {
-        errorCode,
+        statusCode,
         msg,
         data,
         activity
